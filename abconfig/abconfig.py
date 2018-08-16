@@ -11,6 +11,9 @@ class ABConfig(object):
             os.path.exists(self.path) and self.load()
         self.section = self.parser['DEFAULT']
 
+    def has_section(self, name):
+        return self.parser.has_section(name)
+
     def change_section(self, name, create_if_missing=True):
         if create_if_missing:
             self.parser.add_section(name)
@@ -41,7 +44,7 @@ class ABConfig(object):
         self.section[key] = self.CONF_ENCODERS.get(key, str)(value)
 
 class NEOConfig(ABConfig):
-    def set_logininfo(self, host='localhost', port='17474', usr='neo4j', pw='pass'):
+    def set_logininfo(self, host='localhost', port='17474', boltport='7687', usr='neo4j', pw='pass'):
         self.section.update(
                 {
                     'port': str(port),
@@ -56,10 +59,15 @@ class NEOConfig(ABConfig):
         return 'http://{host}:{port}'.format(host=self.section['host'], port=self.section['port'])
 
     @property
+    def bolturl(self):
+        return 'bolt://{host}:{port}'.format(host=self.section['host'], port=self.section['boltport'])
+
+    @property
     def loginkey(self):
         return {
                     'username': self.section['usr'],
                     'password': self.section['pw'],
-                    'url': self.url
+                    'url': self.url,
+                    'bolturl': self.bolturl
                 }
 
