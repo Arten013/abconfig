@@ -65,9 +65,7 @@ class NEOConfig(ABConfig):
     @property
     def loginkey(self):
         return {
-                    'username': self.section['usr'],
-                    'password': self.section['pw'],
-                    'url': self.url,
-                    'bolturl': self.bolturl
+                    'auth': (self.section['usr'], self.section['pw']),
+                    'uri': self.bolturl
                 }
 
