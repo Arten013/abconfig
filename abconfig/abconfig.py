@@ -51,6 +51,7 @@ class NEOConfig(ABConfig):
                     'usr': usr,
                     'pw': pw,
                     'host': host,
+                    'boltport': boltport
                 }
             )
 
