@@ -64,6 +64,12 @@ class ABConfig(object):
         self.section_name = self._prev_section_name_stack.pop()
         return True
 
+    def remove_section(self, name):
+        assert len(self._prev_section_name_stack) == 0, 'You cannot remove section in with clause.'
+        if self.section_name == name:
+            self.change_section(self.DEFAULT_SECTION)
+        return self.parser.remove_section(name)
+
     def has_section(self, name):
         return self.parser.has_section(name)
 
